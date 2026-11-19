@@ -1,0 +1,1642 @@
+/* =========================================================
+   1. PALETA OFICIAL DO BRIEFING & VARIÁVEIS
+========================================================= */
+:root {
+    --off-white: #F5F1EB;
+    --areia: #E2D7CA;
+    --areia-clara: #EBE3D9;
+    --taupe: #AA9987;
+    --marrom: #76533D;
+    --marrom-escuro: #422B1E;
+    --grafite: #302D2A;
+    --texto-corpo: #57514B;
+    --branco: #FFFFFF;
+
+    --linha-fina: rgba(170, 153, 135, 0.35);
+    --linha-escura: rgba(226, 215, 202, 0.18);
+
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--grafite);
+    background-color: var(--off-white);
+    line-height: 1.65;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Textura tátil sutil de papel algodão */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.024;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+::selection {
+    background-color: var(--marrom);
+    color: var(--branco);
+}
+
+/* =========================================================
+   2. TIPOGRAFIA & COMPONENTES GLOBAIS
+========================================================= */
+h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--grafite);
+}
+
+.serif-italic {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.cor-marrom {
+    color: var(--marrom);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 36px;
+}
+
+section {
+    padding: 120px 0;
+    position: relative;
+}
+
+/* Container com overflow oculto para Parallax de Imagem */
+.parallax-window {
+    overflow: hidden;
+    position: relative;
+}
+
+.parallax-img {
+    width: 100%;
+    height: 116%;
+    object-fit: cover;
+    display: block;
+    will-change: transform;
+    transform: translate3d(0, -6%, 0);
+    transition: scale 0.9s var(--ease-out-expo);
+}
+
+.parallax-window:hover .parallax-img {
+    scale: 1.03;
+}
+
+.parallax-el,
+.js-follow-top {
+    will-change: transform;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--marrom);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background-color: var(--marrom);
+    display: inline-block;
+}
+
+.eyebrow-pill {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2.2px;
+    color: var(--marrom);
+    font-weight: 500;
+    padding: 7px 18px;
+    border: 1px solid var(--taupe);
+    border-radius: 100px;
+    margin-bottom: 22px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Botão com Animação Cortina Deslizante */
+.btn-primary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background-color: var(--marrom);
+    color: var(--branco);
+    text-decoration: none;
+    padding: 20px 40px;
+    border-radius: 6px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid var(--marrom);
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 0.4s var(--ease-out-expo), border-color 0.4s var(--ease-out-expo), transform 0.3s var(--ease-out-expo);
+}
+
+.btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--marrom-escuro);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-out-expo);
+    z-index: -1;
+}
+
+.btn-primary:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.btn-primary:hover {
+    border-color: var(--marrom-escuro);
+    transform: translateY(-2px);
+}
+
+.btn-primary i {
+    font-size: 0.78rem;
+    transition: transform 0.35s var(--ease-out-expo);
+}
+
+.btn-primary:hover i {
+    transform: translateX(5px);
+}
+
+.titulo-secao {
+    font-size: clamp(2.35rem, 4vw, 3.45rem);
+    margin-bottom: 20px;
+}
+
+/* =========================================================
+   3. BARRA SUPERIOR EDITORIAL
+========================================================= */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(66, 43, 30, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--linha-escura);
+}
+
+.topbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-mark {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--off-white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-mark span {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--areia);
+    opacity: 0.8;
+    font-weight: 400;
+    padding-left: 12px;
+    border-left: 1px solid var(--linha-escura);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.topbar-date {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--areia);
+    opacity: 0.85;
+}
+
+.btn-topbar {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    font-weight: 500;
+    color: var(--off-white);
+    text-decoration: none;
+    padding: 8px 18px;
+    border: 1px solid rgba(226, 215, 202, 0.45);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn-topbar:hover {
+    background-color: var(--areia);
+    color: var(--marrom-escuro);
+    border-color: var(--areia);
+}
+
+/* =========================================================
+   4. SEÇÃO 01 (PARTE A) | CAPA MARROM ESCURO DO PDF
+========================================================= */
+.abertura-capa {
+    background-color: var(--marrom-escuro);
+    color: var(--areia);
+    padding: 84px 0 96px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--linha-escura);
+}
+
+.abertura-capa-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.capa-lockup {
+    padding: 20px 0;
+}
+
+.capa-lockup .palavra-workshop {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: clamp(1.1rem, 2vw, 1.55rem);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: #C7B29F;
+    margin-bottom: 14px;
+}
+
+.capa-lockup .titulo-capa-pdf {
+    font-family: var(--font-serif);
+    font-size: clamp(3.3rem, 6.2vw, 5.5rem);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 0.96;
+    letter-spacing: 0.01em;
+    color: #D5C3B2;
+    margin-bottom: 32px;
+}
+
+.capa-meta-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: 24px;
+    border-top: 1px solid var(--linha-escura);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 2.2px;
+    color: var(--taupe);
+}
+
+.capa-scroll-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--areia);
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 28px;
+    opacity: 0.85;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.capa-scroll-cue:hover {
+    opacity: 1;
+    transform: translateY(3px);
+}
+
+.capa-galeria {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 20px;
+    align-items: end;
+}
+
+.capa-foto-principal {
+    border-radius: 12px;
+    height: 380px;
+    border: 1px solid var(--linha-escura);
+}
+
+.capa-foto-secundaria {
+    border-radius: 12px;
+    height: 270px;
+    border: 1px solid var(--linha-escura);
+    margin-bottom: 28px;
+}
+
+.capa-legenda-foto {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--taupe);
+    margin-top: 10px;
+    display: block;
+}
+
+/* =========================================================
+   5. SEÇÃO 01 (PARTE B) | HERO COM FOTO DA ANA LUIZA
+========================================================= */
+.hero-arqflow {
+    position: relative;
+    background-color: var(--off-white);
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    padding: 88px 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--linha-fina);
+}
+
+.hero-media-bleed {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 55%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.hero-media-bleed::before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    z-index: 1;
+    opacity: 0.24;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='60' viewBox='0 0 120 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23AA9987' stroke-width='1.1'%3E%3Cpath d='M15 30a15 15 0 0 1 30 0 15 15 0 0 1-30 0zm30 0a15 15 0 0 1 30 0 15 15 0 0 1-30 0z'/%3E%3Cpath d='M75 30a15 15 0 0 1 30 0 15 15 0 0 1-30 0z'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 130px 65px;
+}
+
+.hero-media-bleed img {
+    width: 100%;
+    height: 112%;
+    object-fit: cover;
+    object-position: center 15%;
+    display: block;
+    position: relative;
+    z-index: 2;
+    will-change: transform;
+}
+
+.hero-media-bleed::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(
+        90deg,
+        var(--off-white) 0%,
+        rgba(245, 241, 235, 0.9) 14%,
+        rgba(245, 241, 235, 0.25) 38%,
+        rgba(245, 241, 235, 0) 62%
+    );
+}
+
+.hero-container {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+}
+
+.hero-conteudo {
+    max-width: 550px;
+}
+
+.hero-display-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--marrom);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+}
+
+.hero-display-title .linha-1 {
+    display: block;
+    font-size: clamp(3.3rem, 5.8vw, 5.2rem);
+}
+
+.hero-display-title .linha-2 {
+    display: block;
+    font-size: clamp(3.3rem, 5.8vw, 5.2rem);
+    padding-left: clamp(28px, 5vw, 72px);
+    margin-top: 4px;
+}
+
+.hero-display-title .palavra-do {
+    font-style: italic;
+    text-transform: lowercase;
+    font-size: 0.78em;
+    margin-right: 8px;
+    color: var(--grafite);
+}
+
+.hero-subtitulo-forte {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.5rem, 2.3vw, 1.95rem);
+    font-weight: 500;
+    color: var(--marrom-escuro);
+    line-height: 1.25;
+    margin-bottom: 18px;
+    max-width: 470px;
+}
+
+.hero-descricao {
+    font-size: 1.02rem;
+    color: var(--texto-corpo);
+    line-height: 1.75;
+    margin-bottom: 30px;
+    max-width: 460px;
+}
+
+.hero-info-linha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 26px;
+    margin-bottom: 36px;
+    padding: 18px 0;
+    border-top: 1px solid var(--linha-fina);
+    border-bottom: 1px solid var(--linha-fina);
+    max-width: 460px;
+    font-size: 0.88rem;
+    color: var(--grafite);
+    font-weight: 500;
+}
+
+.hero-info-linha span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hero-info-linha i {
+    color: var(--marrom);
+}
+
+.hero-conteudo .btn-primary {
+    min-width: 340px;
+}
+
+/* =========================================================
+   6. SEÇÃO 02 | IDENTIFICAÇÃO
+========================================================= */
+.secao-dores {
+    background-color: var(--branco);
+    border-bottom: 1px solid var(--linha-fina);
+    padding: 135px 0 155px;
+}
+
+.dores-layout {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 76px;
+    align-items: start;
+}
+
+.dores-coluna-esq {
+    padding-top: 8px;
+}
+
+.dores-coluna-esq p {
+    color: var(--texto-corpo);
+    font-size: 0.98rem;
+    max-width: 390px;
+    margin-top: 14px;
+    line-height: 1.75;
+}
+
+.dores-lista {
+    list-style: none;
+    border-top: 1px solid var(--areia);
+}
+
+.dores-lista li {
+    position: relative;
+    padding: 24px 14px;
+    border-bottom: 1px solid var(--areia);
+    font-size: 1.03rem;
+    color: var(--grafite);
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    transition: background-color 0.35s ease, padding-left 0.35s var(--ease-out-expo);
+}
+
+.dores-lista li::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0%;
+    height: 1px;
+    background-color: var(--marrom);
+    transition: width 0.5s var(--ease-out-expo);
+}
+
+.dores-lista li:hover {
+    background-color: rgba(245, 241, 235, 0.65);
+    padding-left: 24px;
+}
+
+.dores-lista li:hover::after {
+    width: 100%;
+}
+
+.mark-x {
+    color: var(--marrom);
+    font-size: 1.05rem;
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   7. SEÇÃO 03 | DA DIFICULDADE À SOLUÇÃO + GALERIA DE 3 IMAGENS
+========================================================= */
+.secao-solucao {
+    background-color: var(--off-white);
+    padding: 135px 0 110px;
+    text-align: center;
+    border-bottom: 1px solid var(--linha-fina);
+}
+
+.manifesto-box {
+    max-width: 800px;
+    margin: 0 auto 88px;
+}
+
+.manifesto-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.manifesto-divider::before,
+.manifesto-divider::after {
+    content: "";
+    height: 1px;
+    width: 90px;
+    background-color: var(--taupe);
+    opacity: 0.6;
+}
+
+.manifesto-diamond {
+    width: 6px;
+    height: 6px;
+    background-color: var(--marrom);
+    transform: rotate(45deg);
+}
+
+.manifesto-title {
+    font-size: clamp(2.3rem, 4.1vw, 3.55rem);
+    line-height: 1.15;
+    color: var(--grafite);
+    margin-bottom: 32px;
+}
+
+.manifesto-text {
+    font-size: 1.1rem;
+    color: var(--texto-corpo);
+    line-height: 1.85;
+    max-width: 670px;
+    margin: 0 auto 24px;
+}
+
+.manifesto-highlight {
+    font-family: var(--font-serif);
+    font-size: clamp(1.55rem, 2.5vw, 2.05rem);
+    font-style: italic;
+    color: var(--marrom);
+    line-height: 1.35;
+    max-width: 650px;
+    margin: 32px auto;
+}
+
+.galeria-trio {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr 1fr;
+    gap: 28px;
+    align-items: center;
+    text-align: left;
+}
+
+.trio-item {
+    background-color: var(--branco);
+    border: 1px solid var(--areia);
+    border-radius: 14px;
+    padding: 12px;
+}
+
+.trio-item:nth-child(1) .trio-window { height: 260px; border-radius: 8px; }
+.trio-item:nth-child(2) .trio-window { height: 330px; border-radius: 8px; }
+.trio-item:nth-child(3) .trio-window { height: 260px; border-radius: 8px; }
+
+.trio-label {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 4px 2px;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: var(--marrom);
+    font-weight: 500;
+}
+
+/* =========================================================
+   8. SEÇÃO 04 | APRESENTAÇÃO & CARTÕES DE ENCONTROS
+========================================================= */
+.secao-apresentacao {
+    background-color: var(--branco);
+    border-bottom: 1px solid var(--linha-fina);
+}
+
+.apresentacao-top {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 44px;
+}
+
+.apresentacao-top p {
+    font-size: 1.03rem;
+    color: var(--texto-corpo);
+}
+
+.encontros-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 780px;
+    margin: 0 auto 76px;
+}
+
+.encontro-card {
+    background-color: #F5EFE8;
+    border: 1px solid rgba(170, 153, 135, 0.28);
+    border-radius: 14px;
+    padding: 30px 28px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.encontro-icone {
+    font-size: 1.55rem;
+    color: var(--marrom);
+    margin-bottom: 14px;
+    line-height: 1;
+}
+
+.encontro-card strong {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--grafite);
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+}
+
+.encontro-card span {
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    font-weight: 400;
+    color: #7A746E;
+}
+
+.explorar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    max-width: 1040px;
+    margin: 0 auto 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--areia);
+}
+
+.explorar-header h3 {
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+}
+
+.explorar-header span {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--taupe);
+    font-weight: 500;
+}
+
+.modulos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+.modulo-card {
+    background-color: var(--off-white);
+    border: 1px solid var(--areia);
+    border-radius: 10px;
+    padding: 26px 30px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    transition: all 0.35s var(--ease-out-expo);
+}
+
+.modulo-card:hover {
+    background-color: var(--branco);
+    border-color: var(--taupe);
+    transform: translateY(-3px);
+}
+
+.modulo-num {
+    font-family: var(--font-serif);
+    font-size: 2.1rem;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--marrom);
+    line-height: 1;
+    min-width: 38px;
+}
+
+.modulo-divider {
+    width: 1px;
+    height: 28px;
+    background-color: var(--areia);
+}
+
+.modulo-title {
+    font-size: 1.02rem;
+    color: var(--grafite);
+    font-weight: 500;
+}
+
+/* =========================================================
+   9. SEÇÃO 05 | O QUE VOCÊ VAI RECEBER
+========================================================= */
+.secao-entregaveis {
+    background-color: var(--off-white);
+    border-bottom: 1px solid var(--linha-fina);
+}
+
+.entregaveis-intro {
+    max-width: 740px;
+    margin: 0 auto 60px;
+    text-align: center;
+}
+
+.entregaveis-intro p {
+    font-size: 1.03rem;
+    color: var(--texto-corpo);
+}
+
+.projetos-destaque-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    margin-bottom: 28px;
+}
+
+.card-dossier {
+    background-color: var(--branco);
+    border: 1px solid var(--areia);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.35s ease, transform 0.35s var(--ease-out-expo);
+}
+
+.card-dossier:hover {
+    border-color: var(--taupe);
+    transform: translateY(-4px);
+}
+
+.dossier-img-wrap {
+    height: 360px;
+    background-color: var(--areia);
+    border-bottom: 1px solid var(--areia);
+}
+
+.dossier-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 3;
+    background-color: rgba(245, 241, 235, 0.94);
+    backdrop-filter: blur(6px);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: var(--marrom-escuro);
+    font-weight: 600;
+    border: 1px solid var(--linha-fina);
+}
+
+.dossier-body {
+    padding: 30px 32px;
+}
+
+.dossier-body h3 {
+    font-size: 1.7rem;
+    margin-bottom: 8px;
+}
+
+.dossier-body p {
+    font-size: 0.96rem;
+    color: var(--texto-corpo);
+}
+
+.materiais-apoio-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+}
+
+.card-apoio {
+    background-color: var(--branco);
+    border: 1px solid var(--areia);
+    border-radius: 16px;
+    padding: 22px;
+    display: grid;
+    grid-template-columns: 185px 1fr;
+    gap: 24px;
+    align-items: center;
+    transition: border-color 0.35s ease, transform 0.35s var(--ease-out-expo);
+}
+
+.card-apoio:hover {
+    border-color: var(--taupe);
+    transform: translateY(-3px);
+}
+
+.apoio-thumb {
+    width: 185px;
+    height: 165px;
+    border-radius: 10px;
+    background-color: var(--areia);
+}
+
+.apoio-content h3 {
+    font-size: 1.48rem;
+    margin-bottom: 8px;
+}
+
+.apoio-content p {
+    font-size: 0.92rem;
+    color: var(--texto-corpo);
+    line-height: 1.6;
+}
+
+.bonus-editorial-card {
+    margin-top: 36px;
+    background-color: var(--areia);
+    border: 1px solid var(--taupe);
+    border-radius: 16px;
+    padding: 44px 48px;
+    position: relative;
+}
+
+.bonus-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+}
+
+.bonus-tag-label {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2.2px;
+    color: var(--branco);
+    background-color: var(--marrom);
+    padding: 5px 14px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-bottom: 14px;
+}
+
+.bonus-editorial-card h3 {
+    font-size: clamp(1.75rem, 2.8vw, 2.25rem);
+    color: var(--marrom-escuro);
+    margin-bottom: 10px;
+}
+
+.bonus-editorial-card p {
+    font-size: 1rem;
+    color: var(--grafite);
+    max-width: 720px;
+}
+
+.bonus-conditions {
+    background-color: rgba(245, 241, 235, 0.82);
+    border: 1px solid rgba(118, 83, 61, 0.25);
+    border-radius: 10px;
+    padding: 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 300px;
+}
+
+.bonus-conditions-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.86rem;
+    color: var(--marrom-escuro);
+    font-weight: 500;
+}
+
+.bonus-conditions-item i {
+    color: var(--marrom);
+}
+
+/* =========================================================
+   10. SEÇÃO 06 | PARA QUEM É O WORKSHOP?
+========================================================= */
+.secao-publico {
+    background-color: var(--branco);
+    border-bottom: 1px solid var(--linha-fina);
+}
+
+.publico-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.publico-frases {
+    list-style: none;
+    margin: 34px 0 42px;
+    border-top: 1px solid var(--areia);
+}
+
+.publico-frases li {
+    position: relative;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--areia);
+    font-size: 1.03rem;
+    color: var(--texto-corpo);
+    line-height: 1.7;
+    transition: color 0.3s ease, padding-left 0.35s var(--ease-out-expo);
+}
+
+.publico-frases li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 0;
+    height: 1px;
+    background-color: var(--marrom);
+    transition: width 0.45s var(--ease-out-expo);
+}
+
+.publico-frases li:hover {
+    color: var(--grafite);
+    padding-left: 12px;
+}
+
+.publico-frases li:hover::before {
+    width: 100%;
+}
+
+.publico-visual {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.publico-passepartout {
+    background-color: var(--off-white);
+    border: 1px solid var(--areia);
+    padding: 16px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 470px;
+}
+
+.publico-foto-window {
+    height: auto;
+    aspect-ratio: 3 / 4;
+    border-radius: 10px;
+}
+
+.publico-foto-window .parallax-img {
+    object-position: 50% 0%;
+}
+
+/* =========================================================
+   11. SEÇÃO 07 | QUEM É ANA LUIZA
+========================================================= */
+.secao-autora {
+    background-color: var(--off-white);
+    border-bottom: 1px solid var(--linha-fina);
+}
+
+.autora-grid {
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.autora-visual {
+    position: relative;
+}
+
+.autora-frame {
+    background-color: var(--areia);
+    padding: 16px;
+    border-radius: 28px 28px 14px 14px;
+    border: 1px solid var(--taupe);
+    max-width: 460px;
+}
+
+.autora-foto-window {
+    height: auto;
+    aspect-ratio: 4 / 5;
+    border-radius: 20px 20px 8px 8px;
+}
+
+.autora-parallax-img {
+    width: 100%;
+    height: 106%;
+    object-fit: cover;
+    object-position: 50% 0%;
+    transform: translate3d(0, 0px, 0);
+}
+
+.autora-titulo-ref {
+    font-family: var(--font-serif);
+    font-size: clamp(2.8rem, 4.5vw, 4.1rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--grafite);
+    margin-bottom: 28px;
+}
+
+.autora-titulo-ref .nome-italico {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--marrom);
+    font-size: 1.04em;
+    margin-top: 2px;
+}
+
+.autora-bio p {
+    font-size: 1.05rem;
+    color: var(--texto-corpo);
+    line-height: 1.85;
+    margin-bottom: 22px;
+}
+
+.autora-credenciais {
+    display: flex;
+    gap: 36px;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--linha-fina);
+}
+
+.credencial-item strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: var(--marrom);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.credencial-item span {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--texto-corpo);
+}
+
+/* =========================================================
+   12. SEÇÃO 08 | INVESTIMENTO
+========================================================= */
+.secao-investimento {
+    background-color: var(--areia-clara);
+    border-bottom: 1px solid var(--linha-fina);
+}
+
+.investimento-container {
+    max-width: 740px;
+    margin: 0 auto;
+}
+
+.investimento-header {
+    text-align: center;
+    margin-bottom: 42px;
+}
+
+.investimento-header p {
+    font-size: 1.02rem;
+    color: var(--texto-corpo);
+}
+
+.sheet-branca {
+    background-color: var(--branco);
+    border: 1px solid var(--areia);
+    border-radius: 16px;
+    padding: 12px 40px;
+    margin-bottom: 20px;
+}
+
+.sheet-lista {
+    list-style: none;
+}
+
+.sheet-lista li {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--off-white);
+}
+
+.sheet-item-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.sheet-item-left i {
+    color: var(--marrom);
+    font-size: 1.05rem;
+    margin-top: 3px;
+}
+
+.sheet-item-left strong {
+    display: block;
+    font-size: 1.02rem;
+    font-weight: 500;
+    color: var(--grafite);
+    margin-bottom: 3px;
+}
+
+.sheet-item-left span {
+    display: block;
+    font-size: 0.85rem;
+    color: #877F77;
+}
+
+.valor-ancora {
+    font-size: 0.9rem;
+    color: #938980;
+    text-decoration: line-through;
+    white-space: nowrap;
+}
+
+.sheet-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0 20px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--grafite);
+}
+
+.oferta-card {
+    background-color: var(--areia);
+    border: 1px solid var(--taupe);
+    border-radius: 16px;
+    padding: 44px 40px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.oferta-intro {
+    font-size: 0.96rem;
+    color: var(--grafite);
+    margin-bottom: 8px;
+}
+
+.oferta-preco-grande {
+    font-family: var(--font-sans);
+    font-size: clamp(2.2rem, 4.2vw, 3rem);
+    font-weight: 600;
+    color: var(--marrom);
+    letter-spacing: -0.02em;
+    margin: 6px 0;
+}
+
+.oferta-avista {
+    font-size: 1.05rem;
+    color: var(--grafite);
+    font-weight: 500;
+    margin-bottom: 28px;
+}
+
+.oferta-card .btn-primary {
+    width: 100%;
+    padding: 22px;
+}
+
+.oferta-nota {
+    font-size: 0.78rem;
+    color: var(--texto-corpo);
+    margin-top: 16px;
+}
+
+.bonus-strip-separado {
+    background-color: var(--off-white);
+    border: 1px solid var(--areia);
+    border-radius: 14px;
+    padding: 24px 32px;
+}
+
+.bonus-strip-separado strong {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.96rem;
+    color: var(--marrom-escuro);
+    margin-bottom: 6px;
+}
+
+.bonus-strip-separado strong i {
+    color: var(--marrom);
+}
+
+.bonus-strip-separado p {
+    font-size: 0.88rem;
+    color: var(--texto-corpo);
+}
+
+/* =========================================================
+   13. SEÇÃO 09 | PERGUNTAS FREQUENTES
+========================================================= */
+.secao-faq {
+    background-color: var(--branco);
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-container .titulo-secao {
+    text-align: center;
+    margin-bottom: 52px;
+}
+
+.faq-accordion {
+    border-top: 1px solid var(--areia);
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--areia);
+}
+
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 24px 0;
+    text-align: left;
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--marrom-escuro);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    transition: color 0.25s ease;
+}
+
+.faq-question:hover {
+    color: var(--marrom);
+}
+
+.faq-icon {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--marrom);
+    line-height: 1;
+    transition: transform 0.35s var(--ease-out-expo);
+    flex-shrink: 0;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s var(--ease-out-expo);
+}
+
+.faq-answer-inner {
+    padding-bottom: 24px;
+    font-size: 0.96rem;
+    color: var(--texto-corpo);
+    line-height: 1.75;
+}
+
+/* =========================================================
+   14. SEÇÃO 10 | CHAMADA FINAL & RODAPÉ
+========================================================= */
+.secao-encerramento {
+    background-color: var(--marrom-escuro);
+    color: var(--off-white);
+    text-align: center;
+    padding: 130px 0;
+}
+
+.encerramento-inner {
+    max-width: 740px;
+    margin: 0 auto;
+}
+
+.encerramento-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--areia);
+    opacity: 0.85;
+    margin-bottom: 20px;
+}
+
+.secao-encerramento h2 {
+    font-size: clamp(2.2rem, 4vw, 3.35rem);
+    color: var(--off-white);
+    margin-bottom: 22px;
+}
+
+.secao-encerramento p {
+    font-size: 1.04rem;
+    color: var(--areia);
+    opacity: 0.9;
+    max-width: 620px;
+    margin: 0 auto 40px;
+}
+
+.btn-encerramento {
+    background-color: var(--areia);
+    color: var(--marrom-escuro);
+    border-color: var(--areia);
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 24px;
+    font-weight: 600;
+}
+
+.btn-encerramento::before {
+    background-color: var(--branco);
+}
+
+.btn-encerramento:hover {
+    color: var(--marrom-escuro);
+    border-color: var(--branco);
+}
+
+.encerramento-meta {
+    font-size: 0.88rem;
+    color: var(--areia);
+    opacity: 0.78;
+    margin-bottom: 0 !important;
+}
+
+footer {
+    background-color: var(--grafite);
+    color: var(--taupe);
+    padding: 36px 0;
+    font-size: 0.82rem;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.footer-links a {
+    color: var(--areia);
+    text-decoration: none;
+    margin-left: 24px;
+    transition: color 0.25s ease;
+}
+
+.footer-links a:hover {
+    color: var(--branco);
+}
+
+/* =========================================================
+   15. RESPONSIVIDADE
+========================================================= */
+@media (max-width: 980px) {
+    section {
+        padding: 85px 0;
+    }
+
+    .topbar-date {
+        display: none;
+    }
+
+    .abertura-capa-grid,
+    .dores-layout,
+    .publico-grid,
+    .autora-grid,
+    .bonus-grid,
+    .galeria-trio {
+        grid-template-columns: 1fr;
+        gap: 44px;
+    }
+
+    .hero-arqflow {
+        display: block;
+        min-height: auto;
+        padding: 64px 0 0;
+    }
+
+    .hero-conteudo {
+        max-width: 100%;
+        margin-bottom: 48px;
+    }
+
+    .hero-media-bleed {
+        position: relative;
+        width: 100%;
+        height: 540px;
+    }
+
+    .hero-media-bleed::after {
+        background: linear-gradient(
+            180deg,
+            var(--off-white) 0%,
+            rgba(245, 241, 235, 0.7) 18%,
+            rgba(245, 241, 235, 0) 45%
+        );
+    }
+
+    .projetos-destaque-grid,
+    .materiais-apoio-grid,
+    .modulos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .publico-visual,
+    .autora-visual {
+        max-width: 470px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 0 22px;
+    }
+
+    .topbar-inner {
+        padding: 14px 22px;
+    }
+
+    .brand-mark span {
+        display: none;
+    }
+
+    .capa-galeria {
+        grid-template-columns: 1fr;
+    }
+
+    .capa-foto-principal,
+    .capa-foto-secundaria {
+        height: 260px;
+        margin-bottom: 0;
+    }
+
+    .hero-conteudo .btn-primary {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .hero-media-bleed {
+        height: 440px;
+    }
+
+    .encontros-strip {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .encontro-card {
+        padding: 24px 20px;
+    }
+
+    .card-apoio {
+        grid-template-columns: 1fr;
+    }
+
+    .apoio-thumb {
+        width: 100%;
+        height: 200px;
+    }
+
+    .bonus-editorial-card {
+        padding: 32px 22px;
+    }
+
+    .bonus-conditions {
+        min-width: 0;
+    }
+
+    .sheet-branca {
+        padding: 10px 20px;
+    }
+
+    .oferta-card {
+        padding: 36px 20px;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-links a {
+        margin: 0 10px;
+    }
+}
