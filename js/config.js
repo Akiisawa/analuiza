@@ -11,7 +11,7 @@ window.WORKSHOP_CONFIG = {
 
     textosBotoes: {
         espera: "Entrar no grupo de espera",
-        inscricao: "Quero participar do workshop",
+        inscricao: "Quero participar do workshop!",
         garantirVaga: "Quero garantir minha vaga"
     },
 
