@@ -88,7 +88,7 @@
     <!-- Google Fonts: Cormorant Garamond & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -112,43 +112,7 @@
         </div>
     </header>
 
-    <!-- SEÇÃO 01 (PARTE A) | CAPA MARROM ESCURO DO PDF + ESPAÇO PARA FOTOS -->
-    <section class="abertura-capa">
-        <div class="container abertura-capa-grid">
-            <div class="capa-lockup">
-                <span class="palavra-workshop">Workshop</span>
-                <h2 class="titulo-capa-pdf">
-                    Por trás do<br>Projeto
-                </h2>
-                <div class="capa-meta-bar">
-                    <span>Arquitetura & Interiores</span>
-                    <span>•</span>
-                    <span>Ana Luiza Neves</span>
-                </div>
-                <a href="#hero-apresentacao" class="capa-scroll-cue">
-                    <span>Conhecer os bastidores</span>
-                    <i class="fa-solid fa-arrow-down"></i>
-                </a>
-            </div>
-
-            <div class="capa-galeria">
-                <div class="parallax-el" data-parallax-speed="-0.06">
-                    <div class="capa-foto-principal parallax-window">
-                        <img class="parallax-img" src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1000&auto=format&fit=crop" alt="Projeto de Interiores Autoral">
-                    </div>
-                    <span class="capa-legenda-foto">01 • Interiores & Detalhamento</span>
-                </div>
-                <div class="parallax-el" data-parallax-speed="0.08">
-                    <div class="capa-foto-secundaria parallax-window">
-                        <img class="parallax-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" alt="Projeto Arquitetônico Residencial">
-                    </div>
-                    <span class="capa-legenda-foto">02 • Arquitetura Residencial</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEÇÃO 01 (PARTE B) | HERO COM A FOTO DA ANA LUIZA -->
+    <!-- SEÇÃO 01 | ABERTURA PRINCIPAL (HERO COM A FOTO DA ANA LUIZA) -->
     <section class="hero-arqflow" id="hero-apresentacao">
         <div class="hero-media-bleed">
             <img class="parallax-el" data-parallax-speed="0.09" src="analuiza.png" alt="Ana Luiza Neves — Workshop Por Trás do Projeto">
@@ -206,23 +170,17 @@
         </div>
     </section>
 
-    <!-- SEÇÃO 02 | IDENTIFICAÇÃO (ACOMPANHA O TOPO DA TELA NA ROLAGEM) -->
-    <section class="secao-dores" id="secao-dores">
-        <div class="container dores-layout">
-            <div class="dores-coluna-esq js-follow-top" data-top-offset="115">
-                <span class="eyebrow">O cotidiano do escritório</span>
-                <h2 class="titulo-secao">Você se identifica com alguma dessas <span class="serif-italic cor-marrom">situações?</span></h2>
-                <p>Desafios reais enfrentados por quem está começando a atuar ou deseja profissionalizar a rotina de projetos.</p>
-            </div>
-
-            <ul class="dores-lista">
-                <li><span class="mark-x">&times;</span> Não sabe por onde começar quando chega um novo cliente.</li>
-                <li><span class="mark-x">&times;</span> Acabou de se formar e não sabe por onde começar a atuar.</li>
-                <li><span class="mark-x">&times;</span> Já trabalha com projetos, mas sente que precisa melhorar seus processos.</li>
-                <li><span class="mark-x">&times;</span> Tem dificuldade em apresentar sua proposta e o valor do seu trabalho.</li>
-                <li><span class="mark-x">&times;</span> Fica inseguro sobre o que entregar ao cliente em cada etapa.</li>
-                <li><span class="mark-x">&times;</span> Lida com alterações após as aprovações e prazos que se estendem.</li>
-                <li><span class="mark-x">&times;</span> Tem dúvidas sobre o que incluir no detalhamento e no projeto executivo.</li>
+    <!-- SEÇÃO 02 | LISTA DE IDENTIFICAÇÃO (SOMENTE OS ITENS, SEM TÍTULO) -->
+    <section class="secao-dores-limpa">
+        <div class="container">
+            <ul class="dores-lista-editorial">
+                <li><span class="dores-marcador" aria-hidden="true"></span><span>Não sabe por onde começar quando chega um novo cliente.</span></li>
+                <li><span class="dores-marcador" aria-hidden="true"></span><span>Acabou de se formar e não sabe por onde começar a atuar.</span></li>
+                <li><span class="dores-marcador" aria-hidden="true"></span><span>Já trabalha com projetos, mas sente que precisa melhorar seus processos.</span></li>
+                <li><span class="dores-marcador" aria-hidden="true"></span><span>Tem dificuldade em apresentar sua proposta e o valor do seu trabalho.</span></li>
+                <li><span class="dores-marcador" aria-hidden="true"></span><span>Fica inseguro sobre o que entregar ao cliente em cada etapa.</span></li>
+                <li><span class="dores-marcador" aria-hidden="true"></span><span>Lida com alterações após as aprovações e prazos que se estendem.</span></li>
+                <li><span class="dores-marcador" aria-hidden="true"></span><span>Tem dúvidas sobre o que incluir no detalhamento e no projeto executivo.</span></li>
             </ul>
         </div>
     </section>
@@ -236,7 +194,7 @@
                 </div>
 
                 <h2 class="manifesto-title">
-                    Muitas dessas dúvidas só aparecem quando começamos a trabalhar com <span class="serif-italic cor-marrom">projetos reais.</span>
+                    Muitas dessas dúvidas só aparecem quando começamos a trabalhar com <strong class="cor-marrom">projetos reais.</strong>
                 </h2>
 
                 <p class="manifesto-text">
@@ -244,11 +202,11 @@
                 </p>
 
                 <p class="manifesto-highlight">
-                    Mas você não precisa descobrir tudo isso sozinho, na tentativa e erro.
+                    Mas você <strong>não precisa descobrir tudo isso sozinho</strong>, na tentativa e erro.
                 </p>
 
                 <p class="manifesto-text">
-                    No workshop <strong class="cor-marrom" style="font-weight: 500;">Por trás do Projeto</strong>, vou compartilhar como conduzo cada etapa, desde o primeiro contato com o cliente até a entrega final, mostrando processos, documentos e exemplos reais do meu escritório.
+                    No workshop <strong class="cor-marrom">Por trás do Projeto</strong>, vou compartilhar como conduzo cada etapa, desde o primeiro contato com o cliente até a entrega final, mostrando processos, documentos e exemplos reais do meu escritório.
                 </p>
             </div>
 
@@ -309,100 +267,116 @@
             </div>
 
             <div class="explorar-header">
-                <h3>O que vamos <span class="serif-italic cor-marrom">explorar?</span></h3>
-                <span>6 Módulos Práticos</span>
+                <h3>O que vamos <span class="destaque-explorar">EXPLORAR?</span></h3>
             </div>
 
             <div class="modulos-grid">
                 <div class="modulo-card">
-                    <span class="modulo-num">01</span>
-                    <span class="modulo-divider"></span>
                     <span class="modulo-title">Atendimento e relacionamento com o cliente</span>
                 </div>
                 <div class="modulo-card">
-                    <span class="modulo-num">02</span>
-                    <span class="modulo-divider"></span>
                     <span class="modulo-title">Proposta comercial e contratação</span>
                 </div>
                 <div class="modulo-card">
-                    <span class="modulo-num">03</span>
-                    <span class="modulo-divider"></span>
                     <span class="modulo-title">Organização e fluxo de trabalho</span>
                 </div>
                 <div class="modulo-card">
-                    <span class="modulo-num">04</span>
-                    <span class="modulo-divider"></span>
                     <span class="modulo-title">Desenvolvimento do projeto arquitetônico</span>
                 </div>
                 <div class="modulo-card">
-                    <span class="modulo-num">05</span>
-                    <span class="modulo-divider"></span>
                     <span class="modulo-title">Desenvolvimento do projeto de interiores</span>
                 </div>
                 <div class="modulo-card">
-                    <span class="modulo-num">06</span>
-                    <span class="modulo-divider"></span>
                     <span class="modulo-title">Projeto executivo e entrega final</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SEÇÃO 05 | O QUE VOCÊ VAI RECEBER + BÔNUS -->
+    <!-- SEÇÃO 05 | O QUE VOCÊ VAI RECEBER (CARROSSEL DE 2 PÁGINAS) + BÔNUS -->
     <section class="secao-entregaveis">
         <div class="container">
-            <div class="entregaveis-intro">
-                <span class="eyebrow">Acervo prático do escritório</span>
-                <h2 class="titulo-secao">Além dos encontros, você terá acesso aos <span class="serif-italic cor-marrom">materiais que utilizo no meu escritório.</span></h2>
-                <p>Documentos editáveis e projetos completos para você conhecer, na prática, como organizo e apresento cada etapa.</p>
+            <div class="entregaveis-top-bar">
+                <div class="entregaveis-intro">
+                    <span class="eyebrow">Acervo prático do escritório</span>
+                    <h2 class="titulo-secao">Além dos encontros, você terá acesso aos <span class="serif-italic cor-marrom">materiais que utilizo no meu escritório.</span></h2>
+                    <p>Documentos editáveis e projetos completos para você conhecer, na prática, como organizo e apresento cada etapa.</p>
+                </div>
+
+                <div class="carousel-controls" aria-label="Navegação do carrossel de materiais">
+                    <span class="carousel-counter js-carousel-counter">01 / 02</span>
+                    <div class="carousel-nav-btns">
+                        <button type="button" class="carousel-btn js-carousel-prev" aria-label="Página anterior">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button type="button" class="carousel-btn js-carousel-next" aria-label="Próxima página">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div class="projetos-destaque-grid">
-                <article class="card-dossier">
-                    <div class="dossier-img-wrap parallax-window">
-                        <span class="dossier-badge">DWG • SketchUp • Documentação</span>
-                        <img class="parallax-img" src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop" alt="Projeto arquitetônico completo">
-                    </div>
-                    <div class="dossier-body">
-                        <h3>Projeto arquitetônico completo</h3>
-                        <p>Arquivos editáveis e documentação do projeto.</p>
-                    </div>
-                </article>
+            <!-- Carrossel de 2 Páginas (2 cards por página) -->
+            <div class="materiais-carousel">
+                <div class="carousel-track js-carousel-track" tabindex="0">
+                    <!-- Página 1: Projetos Completos -->
+                    <div class="carousel-page">
+                        <article class="carousel-slide">
+                            <div class="slide-img-wrap">
+                                <span class="dossier-badge">DWG • SketchUp • Documentação</span>
+                                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop" alt="Projeto arquitetônico completo" draggable="false">
+                            </div>
+                            <div class="slide-body">
+                                <h3>Projeto arquitetônico completo</h3>
+                                <p>Arquivos editáveis e documentação do projeto.</p>
+                            </div>
+                        </article>
 
-                <article class="card-dossier">
-                    <div class="dossier-img-wrap parallax-window">
-                        <span class="dossier-badge">DWG • SketchUp • LayOut</span>
-                        <img class="parallax-img" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop" alt="Projeto de interiores completo">
+                        <article class="carousel-slide">
+                            <div class="slide-img-wrap">
+                                <span class="dossier-badge">DWG • SketchUp • LayOut</span>
+                                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop" alt="Projeto de interiores completo" draggable="false">
+                            </div>
+                            <div class="slide-body">
+                                <h3>Projeto de interiores completo</h3>
+                                <p>Arquivos editáveis e detalhamentos.</p>
+                            </div>
+                        </article>
                     </div>
-                    <div class="dossier-body">
-                        <h3>Projeto de interiores completo</h3>
-                        <p>Arquivos editáveis e detalhamentos.</p>
+
+                    <!-- Página 2: Documentos & Organização -->
+                    <div class="carousel-page">
+                        <article class="carousel-slide">
+                            <div class="slide-img-wrap">
+                                <span class="dossier-badge">Gestão • Contratos</span>
+                                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=900&auto=format&fit=crop" alt="Documentos editáveis" draggable="false">
+                            </div>
+                            <div class="slide-body">
+                                <h3>Documentos editáveis</h3>
+                                <p>Proposta comercial, contrato, briefing, manual do cliente, atas de reunião e termos de aprovação.</p>
+                            </div>
+                        </article>
+
+                        <article class="carousel-slide">
+                            <div class="slide-img-wrap">
+                                <span class="dossier-badge">Processos • Checklists</span>
+                                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=900&auto=format&fit=crop" alt="Materiais de organização" draggable="false">
+                            </div>
+                            <div class="slide-body">
+                                <h3>Materiais de organização</h3>
+                                <p>Fluxograma do processo e checklists de conferência.</p>
+                            </div>
+                        </article>
                     </div>
-                </article>
+                </div>
+
+                <div class="carousel-footer">
+                    <div class="carousel-dots js-carousel-dots" role="tablist" aria-label="Selecionar página de materiais"></div>
+                    <span class="carousel-hint">Arraste ou use as setas para navegar</span>
+                </div>
             </div>
 
-            <div class="materiais-apoio-grid">
-                <article class="card-apoio">
-                    <div class="apoio-thumb parallax-window">
-                        <img class="parallax-img" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=700&auto=format&fit=crop" alt="Documentos editáveis">
-                    </div>
-                    <div class="apoio-content">
-                        <h3>Documentos editáveis</h3>
-                        <p>Proposta comercial, contrato, briefing, manual do cliente, atas de reunião e termos de aprovação.</p>
-                    </div>
-                </article>
-
-                <article class="card-apoio">
-                    <div class="apoio-thumb parallax-window">
-                        <img class="parallax-img" src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=700&auto=format&fit=crop" alt="Materiais de organização">
-                    </div>
-                    <div class="apoio-content">
-                        <h3>Materiais de organização</h3>
-                        <p>Fluxograma do processo e checklists de conferência.</p>
-                    </div>
-                </article>
-            </div>
-
+            <!-- Bônus Exclusivo -->
             <div class="bonus-editorial-card">
                 <div class="bonus-grid">
                     <div>
@@ -455,7 +429,7 @@
         </div>
     </section>
 
-    <!-- SEÇÃO 07 | QUEM É ANA LUIZA -->
+    <!-- SEÇÃO 07 | QUEM VAI ESTAR COM VOCÊ? -->
     <section class="secao-autora">
         <div class="container autora-grid">
             <div class="autora-visual">
@@ -467,26 +441,12 @@
             </div>
 
             <div class="autora-bio">
-                <span class="eyebrow">Quem vai conduzir o workshop</span>
-                <h2 class="autora-titulo-ref">
-                    Prazer, sou
-                    <span class="nome-italico">Ana Luiza Neves!</span>
-                </h2>
+                <span class="eyebrow eyebrow-claro">Quem vai estar com você?</span>
+                <h2 class="autora-nome-destaque">Ana Luiza Neves</h2>
 
                 <p>Sou engenheira civil e designer de interiores, especialista em projetos residenciais, com 10 anos de experiência na área de projetos.</p>
                 <p>Ao longo desses anos, desenvolvi minha forma de trabalhar, organizando processos, documentos e etapas que hoje fazem parte da rotina do meu escritório.</p>
                 <p>No workshop, quero compartilhar essa experiência de forma prática, mostrando não apenas os resultados dos projetos, mas também tudo o que acontece até chegarmos à entrega final.</p>
-
-                <div class="autora-credenciais">
-                    <div class="credencial-item">
-                        <strong>10 anos</strong>
-                        <span>De experiência prática</span>
-                    </div>
-                    <div class="credencial-item">
-                        <strong>Engenharia & Interiores</strong>
-                        <span>Especialista em residenciais</span>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     aplicarCtas();
 
-    // Sincroniza valores de investimento e links do rodapé a partir do config.js
+    // Sincroniza valores de investimento e links do rodapé via config.js
     const elTotal = document.querySelector(".js-valor-total");
     const elParcelado = document.querySelector(".js-preco-parcelado");
     const elAVista = document.querySelector(".js-preco-avista");
@@ -68,7 +68,140 @@ document.addEventListener("DOMContentLoaded", function () {
     if (elTermos && linksCfg.termosUso) elTermos.href = linksCfg.termosUso;
     if (elContato && linksCfg.contato) elContato.href = linksCfg.contato;
 
-    // 2. Accordion Fluido para o FAQ (Seção 09)
+    // 2. Carrossel de 2 Páginas (2 Cards por Página + Snap ao Soltar Arraste)
+    const carouselTrack = document.querySelector(".js-carousel-track");
+    if (carouselTrack) {
+        const pages = Array.from(carouselTrack.querySelectorAll(".carousel-page"));
+        const prevBtn = document.querySelector(".js-carousel-prev");
+        const nextBtn = document.querySelector(".js-carousel-next");
+        const dotsContainer = document.querySelector(".js-carousel-dots");
+        const counterEl = document.querySelector(".js-carousel-counter");
+
+        let currentIndex = 0;
+
+        function pad2Num(n) {
+            return String(n).padStart(2, "0");
+        }
+
+        function getPageStep() {
+            if (pages.length === 0) return 0;
+            const style = window.getComputedStyle(carouselTrack);
+            const gap = parseFloat(style.gap) || 24;
+            return pages[0].offsetWidth + gap;
+        }
+
+        function updateIndicators(index) {
+            currentIndex = Math.max(0, Math.min(pages.length - 1, index));
+            if (counterEl) {
+                counterEl.textContent =
+                    pad2Num(currentIndex + 1) + " / " + pad2Num(pages.length);
+            }
+            if (dotsContainer) {
+                dotsContainer.querySelectorAll(".carousel-dot").forEach(function (dot, i) {
+                    dot.classList.toggle("active", i === currentIndex);
+                    dot.setAttribute("aria-selected", i === currentIndex ? "true" : "false");
+                });
+            }
+        }
+
+        function goToPage(index) {
+            const targetIndex = (index + pages.length) % pages.length;
+            const step = getPageStep();
+            carouselTrack.scrollTo({
+                left: targetIndex * step,
+                behavior: "smooth"
+            });
+            updateIndicators(targetIndex);
+        }
+
+        if (dotsContainer) {
+            dotsContainer.innerHTML = "";
+            pages.forEach(function (_, idx) {
+                const dot = document.createElement("button");
+                dot.type = "button";
+                dot.className = "carousel-dot" + (idx === 0 ? " active" : "");
+                dot.setAttribute("role", "tab");
+                dot.setAttribute("aria-label", "Ir para página " + (idx + 1));
+                dot.setAttribute("aria-selected", idx === 0 ? "true" : "false");
+                dot.addEventListener("click", function () {
+                    goToPage(idx);
+                });
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener("click", function () {
+                goToPage(currentIndex - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener("click", function () {
+                goToPage(currentIndex + 1);
+            });
+        }
+
+        carouselTrack.addEventListener("keydown", function (e) {
+            if (e.key === "ArrowRight") {
+                e.preventDefault();
+                goToPage(currentIndex + 1);
+            } else if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                goToPage(currentIndex - 1);
+            }
+        });
+
+        let scrollTimeout = null;
+        carouselTrack.addEventListener(
+            "scroll",
+            function () {
+                if (scrollTimeout) window.clearTimeout(scrollTimeout);
+                scrollTimeout = window.setTimeout(function () {
+                    const step = getPageStep();
+                    if (step > 0) {
+                        const idx = Math.round(carouselTrack.scrollLeft / step);
+                        updateIndicators(idx);
+                    }
+                }, 60);
+            },
+            { passive: true }
+        );
+
+        let isDragging = false;
+        let startX = 0;
+        let startScrollLeft = 0;
+
+        carouselTrack.addEventListener("mousedown", function (e) {
+            isDragging = true;
+            carouselTrack.classList.add("is-dragging");
+            startX = e.pageX - carouselTrack.offsetLeft;
+            startScrollLeft = carouselTrack.scrollLeft;
+        });
+
+        window.addEventListener("mouseup", function () {
+            if (!isDragging) return;
+            isDragging = false;
+            carouselTrack.classList.remove("is-dragging");
+            const step = getPageStep();
+            if (step > 0) {
+                const nearest = Math.round(carouselTrack.scrollLeft / step);
+                goToPage(nearest);
+            }
+        });
+
+        carouselTrack.addEventListener("mousemove", function (e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - carouselTrack.offsetLeft;
+            const walk = (x - startX) * 1.4;
+            carouselTrack.scrollLeft = startScrollLeft - walk;
+        });
+
+        updateIndicators(0);
+    }
+
+    // 3. Accordion Fluido para o FAQ
     const faqItems = document.querySelectorAll(".faq-item");
     faqItems.forEach(function (item) {
         const btn = item.querySelector(".faq-question");
@@ -93,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // 3. Contador Regressivo Dinâmico (Hero e Investimento)
+    // 4. Contador Regressivo Dinâmico (Hero e Investimento)
     const countdownEls = document.querySelectorAll(".js-countdown");
     if (countdownEls.length > 0) {
         if (cdCfg.ativo === false) {
@@ -117,7 +250,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const eventoMs = dataEvento.getTime();
                 const agoraEhEspera = agoraMs < corteMs;
 
-                // Se virou a data de corte com a página aberta, atualiza os botões também
                 if (agoraEhEspera !== ultimoEstadoEspera) {
                     ultimoEstadoEspera = agoraEhEspera;
                     aplicarCtas();
@@ -174,98 +306,38 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // 4. Acompanhamento Suave pelo Topo da Tela (.js-follow-top) + Parallax das Imagens
-    const followTopElements = document.querySelectorAll(".js-follow-top");
+    // 5. Parallax Suave nas Imagens e Molduras
     const janelasParallax = document.querySelectorAll(".parallax-window");
     const elementosParallax = document.querySelectorAll(".parallax-el");
-    const suavidade =
-        typeof animCfg.suavidadeFollow === "number"
-            ? animCfg.suavidadeFollow
-            : 0.14;
     const intensidadeImg =
         typeof animCfg.intensidadeParallaxImg === "number"
             ? animCfg.intensidadeParallaxImg
-            : -18;
-
-    const followState = Array.from(followTopElements).map(function (el) {
-        return { el: el, currentOffset: 0 };
-    });
+            : -16;
 
     let rafId = null;
 
-    function calcularAlvoFollowTop(item) {
-        if (window.innerWidth <= 980) {
-            return 0;
-        }
-
-        const el = item.el;
-        const secao = el.closest("section");
-        if (!secao) return 0;
-
-        const topOffset =
-            parseFloat(el.getAttribute("data-top-offset")) ||
-            animCfg.offsetTopoFollow ||
-            115;
-        const secRect = secao.getBoundingClientRect();
-        const styles = window.getComputedStyle(secao);
-        const padTop = parseFloat(styles.paddingTop) || 0;
-        const padBottom = parseFloat(styles.paddingBottom) || 0;
-
-        const deslocamentoDesejado = Math.max(
-            0,
-            -secRect.top - padTop + topOffset
-        );
-        const alturaUtilSecao = secao.offsetHeight - padTop - padBottom;
-        const deslocamentoMaximo = Math.max(
-            0,
-            alturaUtilSecao - el.offsetHeight
-        );
-
-        return Math.min(deslocamentoDesejado, deslocamentoMaximo);
-    }
-
     function loopAnimacao() {
         const viewportH = window.innerHeight;
-        let precisaContinuar = false;
-
-        followState.forEach(function (item) {
-            const targetOffset = calcularAlvoFollowTop(item);
-            const diff = targetOffset - item.currentOffset;
-
-            if (Math.abs(diff) > 0.15) {
-                item.currentOffset += diff * suavidade;
-                precisaContinuar = true;
-            } else {
-                item.currentOffset = targetOffset;
-            }
-
-            item.el.style.transform =
-                "translate3d(0, " + item.currentOffset.toFixed(1) + "px, 0)";
-        });
 
         janelasParallax.forEach(function (janela) {
             const img = janela.querySelector(".parallax-img");
             if (!img) return;
+
+            if (img.classList.contains("autora-parallax-img")) {
+                img.style.transform = "translate3d(0, 0, 0)";
+                return;
+            }
+
             const rect = janela.getBoundingClientRect();
             if (rect.bottom > 0 && rect.top < viewportH) {
                 const progresso =
                     (rect.top + rect.height / 2 - viewportH / 2) /
                     (viewportH / 2);
-
-                if (img.classList.contains("autora-parallax-img")) {
-                    const descidaSuave = Math.max(
-                        0,
-                        Math.min(6, (1 - progresso) * 4)
-                    );
-                    img.style.transform =
-                        "translate3d(0, " + descidaSuave.toFixed(1) + "px, 0)";
-                } else {
-                    const deslocamentoY = progresso * intensidadeImg;
-                    img.style.transform =
-                        "translate3d(0, calc(-6% + " +
-                        deslocamentoY.toFixed(1) +
-                        "px), 0)";
-                }
+                const deslocamentoY = progresso * intensidadeImg;
+                img.style.transform =
+                    "translate3d(0, calc(-5% + " +
+                    deslocamentoY.toFixed(1) +
+                    "px), 0)";
             }
         });
 
@@ -288,11 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        if (precisaContinuar) {
-            rafId = window.requestAnimationFrame(loopAnimacao);
-        } else {
-            rafId = null;
-        }
+        rafId = null;
     }
 
     function solicitarAtualizacao() {
