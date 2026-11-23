@@ -731,6 +731,24 @@ section {
 ========================================================= */
 .secao-apresentacao {
     background-color: var(--branco);
+    overflow: hidden;
+}
+
+.secao-apresentacao .container {
+    position: relative;
+    z-index: 2;
+}
+
+.bg-silhueta {
+    position: absolute;
+    right: -40px;
+    top: 40px;
+    width: clamp(320px, 34vw, 520px);
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
 }
 
 .apresentacao-top {
@@ -857,7 +875,7 @@ section {
 }
 
 /* =========================================================
-   8. CARROSSEL DE 2 PÁGINAS (2 CARDS POR PÁGINA) + BÔNUS
+   8. PAINÉIS EXPANSÍVEIS DE GALERIA (ACORDEÃO HORIZONTAL) + BÔNUS
 ========================================================= */
 .secao-entregaveis {
     background-color: var(--off-white);
@@ -868,7 +886,7 @@ section {
     justify-content: space-between;
     align-items: flex-end;
     gap: 36px;
-    margin-bottom: 44px;
+    margin-bottom: 40px;
 }
 
 .entregaveis-intro {
@@ -885,15 +903,6 @@ section {
     align-items: center;
     gap: 18px;
     flex-shrink: 0;
-}
-
-.carousel-counter {
-    font-family: var(--font-serif);
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--marrom);
-    letter-spacing: 0.08em;
-    font-variant-numeric: lining-nums tabular-nums;
 }
 
 .carousel-nav-btns {
@@ -923,118 +932,213 @@ section {
     transform: translateY(-2px);
 }
 
-.materiais-carousel {
-    position: relative;
-}
-
-.carousel-track {
+/* Galeria Horizontal Expansível */
+.acervo-galeria {
     display: flex;
-    gap: 24px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    padding: 6px 2px 22px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    cursor: grab;
-    outline: none;
+    gap: 16px;
+    height: 500px;
+    width: 100%;
 }
 
-.carousel-track::-webkit-scrollbar {
-    display: none;
-}
-
-.carousel-track.is-dragging {
-    cursor: grabbing;
-    scroll-snap-type: none;
-    scroll-behavior: auto;
-    user-select: none;
-}
-
-.carousel-page {
-    flex: 0 0 100%;
-    min-width: 100%;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-}
-
-.carousel-slide {
-    height: 100%;
-    background-color: var(--branco);
-    border: 1px solid var(--borda-sutil);
+.acervo-painel {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 84px;
     border-radius: var(--radius-md);
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    cursor: pointer;
+    background-color: var(--marrom-profundo);
+    border: 1px solid var(--borda-sutil);
     box-shadow: var(--sombra-ambiente);
-    transition: border-color 0.35s ease, transform 0.35s var(--ease-out-expo);
+    outline: none;
+    transition:
+        flex 0.85s var(--ease-out-expo),
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
 }
 
-.carousel-slide:hover {
-    border-color: var(--borda-media);
-    transform: translateY(-4px);
+.acervo-painel.is-active {
+    flex: 4.4 1 0;
+    cursor: default;
+    border-color: rgba(118, 83, 61, 0.32);
+    box-shadow: 0 22px 48px rgba(46, 42, 39, 0.14);
 }
 
-.slide-img-wrap {
-    position: relative;
-    height: 310px;
-    overflow: hidden;
-    background-color: var(--areia);
+.acervo-painel:not(.is-active):hover {
+    border-color: var(--taupe);
 }
 
-.slide-img-wrap img {
+/* Imagem de fundo com zoom lento e contraste controlado */
+.acervo-bg {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
-    transition: transform 0.8s var(--ease-out-expo);
+    transform: scale(1.1);
+    filter: brightness(0.6) saturate(0.8);
+    transition:
+        transform 1.15s var(--ease-out-expo),
+        filter 0.8s var(--ease-out-expo);
 }
 
-.carousel-slide:hover .slide-img-wrap img {
-    transform: scale(1.04);
+.acervo-painel:not(.is-active):hover .acervo-bg {
+    filter: brightness(0.75) saturate(0.92);
+    transform: scale(1.06);
 }
 
-.dossier-badge {
+.acervo-painel.is-active .acervo-bg {
+    transform: scale(1);
+    filter: brightness(0.95) saturate(1);
+}
+
+/* Véu espresso para legibilidade nas duas fases */
+.acervo-overlay {
     position: absolute;
-    top: 16px;
-    left: 16px;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        180deg,
+        rgba(59, 38, 27, 0.48) 0%,
+        rgba(46, 30, 22, 0.72) 100%
+    );
+    transition: opacity 0.65s ease, background 0.65s ease;
+}
+
+.acervo-painel.is-active .acervo-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(46, 30, 22, 0.08) 0%,
+        rgba(46, 30, 22, 0.12) 42%,
+        rgba(38, 24, 17, 0.88) 100%
+    );
+}
+
+/* Lombada vertical (estado recolhido) */
+.acervo-lombada {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 14px;
+    opacity: 1;
+    transition: opacity 0.35s ease;
+}
+
+.acervo-painel.is-active .acervo-lombada {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.lombada-titulo {
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--off-white);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+}
+
+.lombada-plus {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(246, 242, 236, 0.42);
+    color: var(--off-white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    font-weight: 300;
+    line-height: 1;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.35s var(--ease-out-expo);
+}
+
+.acervo-painel:not(.is-active):hover .lombada-plus {
+    background-color: var(--off-white);
+    border-color: var(--off-white);
+    color: var(--marrom-profundo);
+    transform: rotate(90deg);
+}
+
+/* Selo de formatos no canto superior (estado expandido) */
+.acervo-badge {
+    position: absolute;
+    top: 24px;
+    left: 28px;
     z-index: 3;
-    background-color: rgba(246, 242, 236, 0.94);
+    background-color: rgba(246, 242, 236, 0.92);
     backdrop-filter: blur(8px);
-    padding: 6px 14px;
+    -webkit-backdrop-filter: blur(8px);
+    padding: 7px 16px;
     border-radius: var(--radius-pill);
     font-size: 0.66rem;
     text-transform: uppercase;
     letter-spacing: 1.8px;
     color: var(--marrom-profundo);
     font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.45s var(--ease-out-expo);
 }
 
-.slide-body {
-    padding: 28px 30px 32px;
-    flex: 1;
+.acervo-painel.is-active .acervo-badge {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.22s;
 }
 
-.slide-body h3 {
-    font-size: 1.7rem;
-    margin-bottom: 8px;
-    color: var(--grafite);
+/* Conteúdo na base do painel aberto (largura travada evita reflow feio) */
+.acervo-conteudo {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 3;
+    width: 100%;
+    min-width: 420px;
+    max-width: 560px;
+    padding: 36px 38px;
+    opacity: 0;
+    transform: translateY(18px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.55s var(--ease-out-expo);
 }
 
-.slide-body p {
-    font-size: 0.95rem;
-    color: var(--texto-corpo);
-    line-height: 1.65;
+.acervo-painel.is-active .acervo-conteudo {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition-delay: 0.24s;
 }
 
-.carousel-footer {
+.acervo-conteudo h3 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.9rem, 2.5vw, 2.45rem);
+    font-weight: 500;
+    color: var(--off-white);
+    line-height: 1.08;
+    margin-bottom: 10px;
+}
+
+.acervo-conteudo p {
+    font-size: 0.96rem;
+    color: rgba(246, 242, 236, 0.86);
+    line-height: 1.6;
+}
+
+/* Rodapé de indicadores */
+.acervo-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
+    margin-top: 20px;
 }
 
 .carousel-dots {
@@ -1744,14 +1848,46 @@ footer {
     }
 }
 
-@media (max-width: 768px) {
-    .carousel-page {
-        grid-template-columns: 1fr;
-        gap: 18px;
+@media (max-width: 900px) {
+    .acervo-galeria {
+        flex-direction: column;
+        height: auto;
+        gap: 12px;
     }
 
-    .slide-img-wrap {
-        height: 220px;
+    .acervo-painel {
+        flex: none;
+        width: 100%;
+        min-width: 0;
+        height: 78px;
+        transition: height 0.65s var(--ease-out-expo), border-color 0.35s ease;
+    }
+
+    .acervo-painel.is-active {
+        flex: none;
+        height: 360px;
+    }
+
+    .acervo-lombada {
+        flex-direction: row;
+        padding: 0 24px;
+    }
+
+    .lombada-titulo {
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: 1.3rem;
+    }
+
+    .acervo-badge {
+        top: 18px;
+        left: 20px;
+    }
+
+    .acervo-conteudo {
+        min-width: 0;
+        max-width: 100%;
+        padding: 24px 22px;
     }
 }
 

@@ -16,9 +16,9 @@ window.WORKSHOP_CONFIG = {
     },
 
     investimento: {
-        valorTotalRiscado: "R$ 823,00",
-        parcelamentoDestaque: "12x de R$ XX,XX",
-        precoAVista: "ou R$ 197,00 à vista"
+        valorTotalRiscado: "R$ 247,00",
+        parcelamentoDestaque: "12x de R$ 25,55",
+        precoAVista: "ou R$ 247,00 à vista"
     },
 
     contador: {

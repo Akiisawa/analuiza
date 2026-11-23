@@ -68,137 +68,107 @@ document.addEventListener("DOMContentLoaded", function () {
     if (elTermos && linksCfg.termosUso) elTermos.href = linksCfg.termosUso;
     if (elContato && linksCfg.contato) elContato.href = linksCfg.contato;
 
-    // 2. Carrossel de 2 Páginas (2 Cards por Página + Snap ao Soltar Arraste)
-    const carouselTrack = document.querySelector(".js-carousel-track");
-    if (carouselTrack) {
-        const pages = Array.from(carouselTrack.querySelectorAll(".carousel-page"));
-        const prevBtn = document.querySelector(".js-carousel-prev");
-        const nextBtn = document.querySelector(".js-carousel-next");
-        const dotsContainer = document.querySelector(".js-carousel-dots");
-        const counterEl = document.querySelector(".js-carousel-counter");
+// 2. Painéis Expansíveis de Galeria (Acordeão Horizontal / Vertical)
+    const galeria = document.querySelector(".js-acervo-galeria");
+    if (galeria) {
+        const paineis = Array.from(galeria.querySelectorAll(".acervo-painel"));
+        const prevBtn = document.querySelector(".js-galeria-prev");
+        const nextBtn = document.querySelector(".js-galeria-next");
+        const dotsContainer = document.querySelector(".js-galeria-dots");
 
-        let currentIndex = 0;
+        let activeIndex = 0;
 
-        function pad2Num(n) {
-            return String(n).padStart(2, "0");
-        }
+        function ativarPainel(index) {
+            activeIndex = (index + paineis.length) % paineis.length;
 
-        function getPageStep() {
-            if (pages.length === 0) return 0;
-            const style = window.getComputedStyle(carouselTrack);
-            const gap = parseFloat(style.gap) || 24;
-            return pages[0].offsetWidth + gap;
-        }
+            paineis.forEach(function (painel, i) {
+                const ativo = i === activeIndex;
+                painel.classList.toggle("is-active", ativo);
+                painel.setAttribute("aria-expanded", ativo ? "true" : "false");
+            });
 
-        function updateIndicators(index) {
-            currentIndex = Math.max(0, Math.min(pages.length - 1, index));
-            if (counterEl) {
-                counterEl.textContent =
-                    pad2Num(currentIndex + 1) + " / " + pad2Num(pages.length);
-            }
             if (dotsContainer) {
                 dotsContainer.querySelectorAll(".carousel-dot").forEach(function (dot, i) {
-                    dot.classList.toggle("active", i === currentIndex);
-                    dot.setAttribute("aria-selected", i === currentIndex ? "true" : "false");
+                    const ativo = i === activeIndex;
+                    dot.classList.toggle("active", ativo);
+                    dot.setAttribute("aria-selected", ativo ? "true" : "false");
                 });
             }
         }
 
-        function goToPage(index) {
-            const targetIndex = (index + pages.length) % pages.length;
-            const step = getPageStep();
-            carouselTrack.scrollTo({
-                left: targetIndex * step,
-                behavior: "smooth"
-            });
-            updateIndicators(targetIndex);
-        }
-
         if (dotsContainer) {
             dotsContainer.innerHTML = "";
-            pages.forEach(function (_, idx) {
+            paineis.forEach(function (_, idx) {
                 const dot = document.createElement("button");
                 dot.type = "button";
                 dot.className = "carousel-dot" + (idx === 0 ? " active" : "");
                 dot.setAttribute("role", "tab");
-                dot.setAttribute("aria-label", "Ir para página " + (idx + 1));
+                dot.setAttribute("aria-label", "Abrir material " + (idx + 1));
                 dot.setAttribute("aria-selected", idx === 0 ? "true" : "false");
                 dot.addEventListener("click", function () {
-                    goToPage(idx);
+                    ativarPainel(idx);
                 });
                 dotsContainer.appendChild(dot);
             });
         }
 
+        paineis.forEach(function (painel, idx) {
+            painel.addEventListener("click", function () {
+                if (idx !== activeIndex) {
+                    ativarPainel(idx);
+                }
+            });
+
+            painel.addEventListener("keydown", function (e) {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    ativarPainel(idx);
+                } else if (e.key === "ArrowRight") {
+                    e.preventDefault();
+                    ativarPainel(activeIndex + 1);
+                    paineis[activeIndex].focus();
+                } else if (e.key === "ArrowLeft") {
+                    e.preventDefault();
+                    ativarPainel(activeIndex - 1);
+                    paineis[activeIndex].focus();
+                }
+            });
+        });
+
         if (prevBtn) {
             prevBtn.addEventListener("click", function () {
-                goToPage(currentIndex - 1);
+                ativarPainel(activeIndex - 1);
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener("click", function () {
-                goToPage(currentIndex + 1);
+                ativarPainel(activeIndex + 1);
             });
         }
 
-        carouselTrack.addEventListener("keydown", function (e) {
-            if (e.key === "ArrowRight") {
-                e.preventDefault();
-                goToPage(currentIndex + 1);
-            } else if (e.key === "ArrowLeft") {
-                e.preventDefault();
-                goToPage(currentIndex - 1);
-            }
-        });
-
-        let scrollTimeout = null;
-        carouselTrack.addEventListener(
-            "scroll",
-            function () {
-                if (scrollTimeout) window.clearTimeout(scrollTimeout);
-                scrollTimeout = window.setTimeout(function () {
-                    const step = getPageStep();
-                    if (step > 0) {
-                        const idx = Math.round(carouselTrack.scrollLeft / step);
-                        updateIndicators(idx);
-                    }
-                }, 60);
+        // Suporte a gesto de deslizar (swipe) no touch
+        let touchStartX = 0;
+        galeria.addEventListener(
+            "touchstart",
+            function (e) {
+                touchStartX = e.changedTouches[0].screenX;
             },
             { passive: true }
         );
 
-        let isDragging = false;
-        let startX = 0;
-        let startScrollLeft = 0;
+        galeria.addEventListener(
+            "touchend",
+            function (e) {
+                const deltaX = e.changedTouches[0].screenX - touchStartX;
+                if (Math.abs(deltaX) > 45) {
+                    ativarPainel(deltaX < 0 ? activeIndex + 1 : activeIndex - 1);
+                }
+            },
+            { passive: true }
+        );
 
-        carouselTrack.addEventListener("mousedown", function (e) {
-            isDragging = true;
-            carouselTrack.classList.add("is-dragging");
-            startX = e.pageX - carouselTrack.offsetLeft;
-            startScrollLeft = carouselTrack.scrollLeft;
-        });
-
-        window.addEventListener("mouseup", function () {
-            if (!isDragging) return;
-            isDragging = false;
-            carouselTrack.classList.remove("is-dragging");
-            const step = getPageStep();
-            if (step > 0) {
-                const nearest = Math.round(carouselTrack.scrollLeft / step);
-                goToPage(nearest);
-            }
-        });
-
-        carouselTrack.addEventListener("mousemove", function (e) {
-            if (!isDragging) return;
-            e.preventDefault();
-            const x = e.pageX - carouselTrack.offsetLeft;
-            const walk = (x - startX) * 1.4;
-            carouselTrack.scrollLeft = startScrollLeft - walk;
-        });
-
-        updateIndicators(0);
+        ativarPainel(0);
     }
 
     // 3. Accordion Fluido para o FAQ

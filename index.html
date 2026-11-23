@@ -245,8 +245,9 @@
     </section>
 
     <!-- SEÇÃO 04 | APRESENTAÇÃO -->
-    <section class="secao-apresentacao">
-        <div class="container">
+        <section class="secao-apresentacao">
+            <img class="bg-silhueta parallax-el" data-parallax-speed="0.06" src="silhueta-ana.png" alt="" aria-hidden="true">
+            <div class="container">
             <div class="apresentacao-top">
                 <span class="eyebrow-pill">Workshop online e ao vivo</span>
                 <h2 class="titulo-secao">Conheça o <span class="serif-italic cor-marrom">Por trás do Projeto</span></h2>
@@ -293,7 +294,7 @@
         </div>
     </section>
 
-    <!-- SEÇÃO 05 | O QUE VOCÊ VAI RECEBER (CARROSSEL DE 2 PÁGINAS) + BÔNUS -->
+<!-- SEÇÃO 05 | O QUE VOCÊ VAI RECEBER (PAINÉIS EXPANSÍVEIS DE GALERIA) + BÔNUS -->
     <section class="secao-entregaveis">
         <div class="container">
             <div class="entregaveis-top-bar">
@@ -303,77 +304,90 @@
                     <p>Documentos editáveis e projetos completos para você conhecer, na prática, como organizo e apresento cada etapa.</p>
                 </div>
 
-                <div class="carousel-controls" aria-label="Navegação do carrossel de materiais">
-                    <span class="carousel-counter js-carousel-counter">01 / 02</span>
+                <div class="carousel-controls" aria-label="Navegação da galeria de materiais">
                     <div class="carousel-nav-btns">
-                        <button type="button" class="carousel-btn js-carousel-prev" aria-label="Página anterior">
+                        <button type="button" class="carousel-btn js-galeria-prev" aria-label="Material anterior">
                             <i class="fa-solid fa-arrow-left"></i>
                         </button>
-                        <button type="button" class="carousel-btn js-carousel-next" aria-label="Próxima página">
+                        <button type="button" class="carousel-btn js-galeria-next" aria-label="Próximo material">
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Carrossel de 2 Páginas (2 cards por página) -->
-            <div class="materiais-carousel">
-                <div class="carousel-track js-carousel-track" tabindex="0">
-                    <!-- Página 1: Projetos Completos -->
-                    <div class="carousel-page">
-                        <article class="carousel-slide">
-                            <div class="slide-img-wrap">
-                                <span class="dossier-badge">DWG • SketchUp • Documentação</span>
-                                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop" alt="Projeto arquitetônico completo" draggable="false">
-                            </div>
-                            <div class="slide-body">
-                                <h3>Projeto arquitetônico completo</h3>
-                                <p>Arquivos editáveis e documentação do projeto.</p>
-                            </div>
-                        </article>
+            <!-- Painéis Expansíveis de Galeria -->
+            <div class="acervo-galeria js-acervo-galeria" role="region" aria-label="Acervo prático do escritório">
+                <article class="acervo-painel is-active" tabindex="0" aria-expanded="true">
+                    <img class="acervo-bg" src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop" alt="Projeto arquitetônico completo" draggable="false">
+                    <div class="acervo-overlay"></div>
 
-                        <article class="carousel-slide">
-                            <div class="slide-img-wrap">
-                                <span class="dossier-badge">DWG • SketchUp • LayOut</span>
-                                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop" alt="Projeto de interiores completo" draggable="false">
-                            </div>
-                            <div class="slide-body">
-                                <h3>Projeto de interiores completo</h3>
-                                <p>Arquivos editáveis e detalhamentos.</p>
-                            </div>
-                        </article>
+                    <!-- Lombada (visível quando recolhido) -->
+                    <div class="acervo-lombada" aria-hidden="true">
+                        <span class="lombada-titulo">Projeto arquitetônico</span>
+                        <span class="lombada-plus">+</span>
                     </div>
 
-                    <!-- Página 2: Documentos & Organização -->
-                    <div class="carousel-page">
-                        <article class="carousel-slide">
-                            <div class="slide-img-wrap">
-                                <span class="dossier-badge">Gestão • Contratos</span>
-                                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=900&auto=format&fit=crop" alt="Documentos editáveis" draggable="false">
-                            </div>
-                            <div class="slide-body">
-                                <h3>Documentos editáveis</h3>
-                                <p>Proposta comercial, contrato, briefing, manual do cliente, atas de reunião e termos de aprovação.</p>
-                            </div>
-                        </article>
-
-                        <article class="carousel-slide">
-                            <div class="slide-img-wrap">
-                                <span class="dossier-badge">Processos • Checklists</span>
-                                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=900&auto=format&fit=crop" alt="Materiais de organização" draggable="false">
-                            </div>
-                            <div class="slide-body">
-                                <h3>Materiais de organização</h3>
-                                <p>Fluxograma do processo e checklists de conferência.</p>
-                            </div>
-                        </article>
+                    <!-- Conteúdo (visível quando expandido) -->
+                    <span class="acervo-badge">DWG • SketchUp • Documentação</span>
+                    <div class="acervo-conteudo">
+                        <h3>Projeto arquitetônico completo</h3>
+                        <p>Arquivos editáveis e documentação do projeto.</p>
                     </div>
-                </div>
+                </article>
 
-                <div class="carousel-footer">
-                    <div class="carousel-dots js-carousel-dots" role="tablist" aria-label="Selecionar página de materiais"></div>
-                    <span class="carousel-hint">Arraste ou use as setas para navegar</span>
-                </div>
+                <article class="acervo-painel" tabindex="0" aria-expanded="false">
+                    <img class="acervo-bg" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1200&auto=format&fit=crop" alt="Projeto de interiores completo" draggable="false">
+                    <div class="acervo-overlay"></div>
+
+                    <div class="acervo-lombada" aria-hidden="true">
+                        <span class="lombada-titulo">Projeto de interiores</span>
+                        <span class="lombada-plus">+</span>
+                    </div>
+
+                    <span class="acervo-badge">DWG • SketchUp • LayOut</span>
+                    <div class="acervo-conteudo">
+                        <h3>Projeto de interiores completo</h3>
+                        <p>Arquivos editáveis e detalhamentos.</p>
+                    </div>
+                </article>
+
+                <article class="acervo-painel" tabindex="0" aria-expanded="false">
+                    <img class="acervo-bg" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop" alt="Documentos editáveis" draggable="false">
+                    <div class="acervo-overlay"></div>
+
+                    <div class="acervo-lombada" aria-hidden="true">
+                        <span class="lombada-titulo">Documentos editáveis</span>
+                        <span class="lombada-plus">+</span>
+                    </div>
+
+                    <span class="acervo-badge">Gestão • Contratos</span>
+                    <div class="acervo-conteudo">
+                        <h3>Documentos editáveis</h3>
+                        <p>Proposta comercial, contrato, briefing, manual do cliente, atas de reunião e termos de aprovação.</p>
+                    </div>
+                </article>
+
+                <article class="acervo-painel" tabindex="0" aria-expanded="false">
+                    <img class="acervo-bg" src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=1200&auto=format&fit=crop" alt="Materiais de organização" draggable="false">
+                    <div class="acervo-overlay"></div>
+
+                    <div class="acervo-lombada" aria-hidden="true">
+                        <span class="lombada-titulo">Materiais de organização</span>
+                        <span class="lombada-plus">+</span>
+                    </div>
+
+                    <span class="acervo-badge">Processos • Checklists</span>
+                    <div class="acervo-conteudo">
+                        <h3>Materiais de organização</h3>
+                        <p>Fluxograma do processo e checklists de conferência.</p>
+                    </div>
+                </article>
+            </div>
+
+            <div class="acervo-footer">
+                <div class="carousel-dots js-galeria-dots" role="tablist" aria-label="Selecionar material"></div>
+                <span class="carousel-hint">Clique em um painel ou use as setas</span>
             </div>
 
             <!-- Bônus Exclusivo -->
