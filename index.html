@@ -544,7 +544,7 @@
                                 <span>Proposta, contrato, briefing, manual do cliente, atas e termos</span>
                             </div>
                         </div>
-                        <span class="valor-ancora">R$ 79,00</span>
+                        <span class="valor-ancora">R$ 70,00</span>
                     </li>
                     <li>
                         <div class="sheet-item-left">
@@ -580,7 +580,7 @@
 
                 <div class="sheet-total">
                     <span>Valor total</span>
-                    <span class="valor-ancora js-valor-total">R$ 1.235,00</span>
+                    <span class="valor-ancora js-valor-total">R$ 823,00</span>
                 </div>
             </div>
 
@@ -755,12 +755,20 @@
                 <p>© 2026 Ana Luiza Neves. Todos os direitos reservados.</p>
             </div>
             <div class="footer-links">
-                <a href="#" class="js-link-privacidade">Política de Privacidade</a>
-                <a href="#" class="js-link-termos">Termos de Uso</a>
-                <a href="#" class="js-link-contato">Contato</a>
+                <a href="#privacidade" class="js-link-privacidade" data-modal="privacidade">Política de Privacidade</a>
+                <a href="#termos" class="js-link-termos" data-modal="termos">Termos de Uso</a>
+                <a href="#contato" class="js-link-contato" data-modal="contato">Contato</a>
             </div>
         </div>
     </footer>
+
+    <div class="legal-modal js-legal-modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="legal-modal-card">
+            <button type="button" class="legal-modal-close js-legal-close" aria-label="Fechar janela">&times;</button>
+            <h3 class="js-legal-title"></h3>
+            <div class="legal-modal-body js-legal-body"></div>
+        </div>
+    </div>
 
     <script src="js/config.js"></script>
     <script src="js/main.js"></script>
