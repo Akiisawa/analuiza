@@ -5,12 +5,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const investimento = cfg.investimento || {};
 
     const urlGrupo = links.grupoEspera || "https://chat.whatsapp.com/BAM6Ckx4bx43wZoTlQNF1e?s=sw&p=i&iam=2";
-    const urlCheckout = links.checkout || "";
-    const aberturaMs = cfg.dataAberturaInscricoes ? Date.parse(cfg.dataAberturaInscricoes) : NaN;
-    const eventoMs = cfg.dataEvento ? Date.parse(cfg.dataEvento) : NaN;
+    const urlCheckout = links.checkout || "https://pay.kiwify.com.br/1FQv6bb";
+    const emailSuporte = links.emailSuporte || "suporte@analuizaeng.com.br";
+    const fimContadorMs = cfg.dataFimContador ? Date.parse(cfg.dataFimContador) : NaN;
 
     function anexarUtms(urlDestino) {
-        if (!urlDestino || urlDestino.startsWith("#")) return urlDestino;
+        if (!urlDestino || urlDestino.startsWith("#") || urlDestino.startsWith("mailto:")) return urlDestino;
         const paramsPagina = new URLSearchParams(window.location.search);
         if (!paramsPagina.toString()) return urlDestino;
 
@@ -25,12 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (err) {
             return urlDestino;
         }
-    }
-
-    function checkoutEstaAtivo() {
-        if (cfg.forcarModoCheckout && urlCheckout) return true;
-        if (urlCheckout && !Number.isNaN(aberturaMs) && Date.now() >= aberturaMs) return true;
-        return false;
     }
 
     function aplicarInvestimento() {
@@ -50,24 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function atualizarCtas() {
-        const modoCheckout = checkoutEstaAtivo();
-        const destino = anexarUtms(modoCheckout ? urlCheckout : urlGrupo);
+        const destinoBase = cfg.forcarModoCheckout === false ? urlGrupo : urlCheckout;
+        const destino = anexarUtms(destinoBase);
         const ctas = document.querySelectorAll(".js-cta-dinamico");
 
         ctas.forEach(function (btn) {
             btn.setAttribute("href", destino);
-
-            if (modoCheckout) {
-                const labelCustom = btn.getAttribute("data-label-checkout") || textos.ctaCheckout || "Quero garantir minha vaga";
-                const spanTexto = btn.querySelector(".btn-text");
-                if (spanTexto) {
-                    spanTexto.textContent = labelCustom;
-                } else {
-                    btn.textContent = labelCustom;
-                }
-            } else if (textos.ctaEspera && btn.classList.contains("btn-topbar")) {
-                btn.textContent = textos.ctaEspera;
-            }
         });
     }
 
@@ -79,56 +61,44 @@ document.addEventListener("DOMContentLoaded", function () {
         const blocos = Array.from(document.querySelectorAll(".js-countdown"));
         if (!blocos.length) return;
 
-        let jaAtualizouCta = false;
+        let timerId = null;
+
+        function esconderContadores() {
+            blocos.forEach(function (bloco) {
+                bloco.style.display = "none";
+                bloco.setAttribute("aria-hidden", "true");
+            });
+            if (timerId !== null) {
+                window.clearInterval(timerId);
+                timerId = null;
+            }
+        }
 
         function atualizarRelogio() {
             const agora = Date.now();
-            const modoCheckout = checkoutEstaAtivo();
-            let alvoMs = aberturaMs;
-            let labelTexto = textos.labelAntesAbertura || "Abertura das inscrições em";
+            const diff = Number.isNaN(fimContadorMs) ? 0 : fimContadorMs - agora;
 
-            if (modoCheckout || (!Number.isNaN(aberturaMs) && agora >= aberturaMs)) {
-                if (!jaAtualizouCta) {
-                    jaAtualizouCta = true;
-                    atualizarCtas();
-                }
-                if (!Number.isNaN(eventoMs) && agora < eventoMs) {
-                    alvoMs = eventoMs;
-                    labelTexto = textos.labelAposAbertura || "Inscrições abertas • O workshop começa em";
-                } else {
-                    alvoMs = NaN;
-                }
+            if (diff <= 0) {
+                esconderContadores();
+                return;
             }
 
-            const diff = Number.isNaN(alvoMs) ? 0 : alvoMs - agora;
+            const totalSeg = Math.floor(diff / 1000);
+            const dias = Math.floor(totalSeg / 86400);
+            const horas = Math.floor((totalSeg % 86400) / 3600);
+            const mins = Math.floor((totalSeg % 3600) / 60);
+            const segs = totalSeg % 60;
 
             blocos.forEach(function (bloco) {
                 const labelEl = bloco.querySelector(".js-countdown-label");
-                const gridEl = bloco.querySelector(".countdown-grid");
                 const daysEl = bloco.querySelector(".js-cd-days");
                 const hoursEl = bloco.querySelector(".js-cd-hours");
                 const minsEl = bloco.querySelector(".js-cd-mins");
                 const secsEl = bloco.querySelector(".js-cd-secs");
 
-                if (diff <= 0) {
-                    if (labelEl) labelEl.style.display = "none";
-                    if (gridEl) {
-                        gridEl.innerHTML = '<span class="countdown-finished">' + (textos.mensagemEncerrado || "As inscrições estão abertas!") + "</span>";
-                    }
-                    return;
+                if (labelEl && textos.labelContador) {
+                    labelEl.textContent = textos.labelContador;
                 }
-
-                if (labelEl) {
-                    labelEl.style.display = "";
-                    labelEl.textContent = labelTexto;
-                }
-
-                const totalSeg = Math.floor(diff / 1000);
-                const dias = Math.floor(totalSeg / 86400);
-                const horas = Math.floor((totalSeg % 86400) / 3600);
-                const mins = Math.floor((totalSeg % 3600) / 60);
-                const segs = totalSeg % 60;
-
                 if (daysEl) daysEl.textContent = pad2(dias);
                 if (hoursEl) hoursEl.textContent = pad2(horas);
                 if (minsEl) minsEl.textContent = pad2(mins);
@@ -137,7 +107,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         atualizarRelogio();
-        window.setInterval(atualizarRelogio, 1000);
+        if (!Number.isNaN(fimContadorMs) && fimContadorMs > Date.now()) {
+            timerId = window.setInterval(atualizarRelogio, 1000);
+        }
     }
 
     function iniciarLightbox() {
@@ -240,13 +212,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const legalClose = legalModal.querySelector(".js-legal-close");
         const footerLinks = document.querySelectorAll(".footer-links a[data-modal]");
 
+        const assuntoEmail = encodeURIComponent("Suporte - Workshop Por Trás do Projeto");
+
         const conteudosLegais = {
             privacidade: {
                 titulo: "Política de Privacidade",
                 html:
                     "<p>Respeitamos a sua privacidade e tratamos seus dados pessoais em conformidade com a <strong>Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018)</strong>.</p>" +
-                    "<p>As informações fornecidas voluntariamente para inscrição no workshop <strong>Por Trás do Projeto</strong> ou ingresso no grupo de espera são utilizadas exclusivamente para envio de comunicados sobre o evento, liberação de acesso às aulas e suporte aos participantes.</p>" +
-                    "<p>Não compartilhamos, vendemos ou cedemos seus dados a terceiros, exceto com plataformas estritamente necessárias para o processamento de pagamentos e entrega do conteúdo. Você pode solicitar a atualização ou exclusão dos seus dados a qualquer momento pelos nossos canais de contato.</p>"
+                    "<p>As informações fornecidas voluntariamente para inscrição no workshop <strong>Por Trás do Projeto</strong> são utilizadas exclusivamente para envio de comunicados sobre o evento, liberação de acesso às aulas e suporte aos participantes.</p>" +
+                    "<p>Não compartilhamos, vendemos ou cedemos seus dados a terceiros, exceto com plataformas estritamente necessárias para o processamento de pagamentos e entrega do conteúdo. Você pode solicitar a atualização ou exclusão dos seus dados a qualquer momento pelo e-mail <strong>" + emailSuporte + "</strong>.</p>"
             },
             termos: {
                 titulo: "Termos de Uso",
@@ -258,9 +232,10 @@ document.addEventListener("DOMContentLoaded", function () {
             contato: {
                 titulo: "Contato e Suporte",
                 html:
-                    "<p>Ficou com alguma dúvida sobre o workshop <strong>Por Trás do Projeto</strong>, inscrições ou formas de pagamento? Fale diretamente com a nossa equipe pelo grupo oficial no WhatsApp.</p>" +
+                    "<p>Ficou com alguma dúvida sobre o workshop <strong>Por Trás do Projeto</strong>, inscrições ou formas de pagamento? Fale diretamente com a nossa equipe pelo WhatsApp ou envie um e-mail para <strong>" + emailSuporte + "</strong>.</p>" +
                     '<div class="legal-modal-actions">' +
                     '<a href="' + anexarUtms(urlGrupo) + '" class="btn-primary" target="_blank" rel="noopener noreferrer">Falar pelo WhatsApp <i class="fa-solid fa-arrow-right"></i></a>' +
+                    '<a href="mailto:' + emailSuporte + '?subject=' + assuntoEmail + '" class="btn-outline-modal"><i class="fa-regular fa-envelope"></i> Enviar e-mail</a>' +
                     "</div>"
             }
         };

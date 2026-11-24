@@ -1,22 +1,18 @@
 window.SITE_CONFIG = {
-    forcarModoCheckout: false,
-    dataAberturaInscricoes: "2026-12-16T18:00:00-03:00",
-    dataEvento: "2026-12-16T19:30:00-03:00",
+    forcarModoCheckout: true,
+    dataFimContador: "2026-12-16T18:00:00-03:00",
 
     links: {
         grupoEspera: "https://chat.whatsapp.com/BAM6Ckx4bx43wZoTlQNF1e?s=sw&p=i&iam=2",
-        checkout: "",
+        checkout: "https://pay.kiwify.com.br/1FQv6bb",
+        emailSuporte: "suporte@analuizaeng.com.br",
         privacidade: "#privacidade",
         termos: "#termos",
         contato: "#contato"
     },
 
     textos: {
-        ctaEspera: "Entrar no grupo de espera",
-        ctaCheckout: "Quero garantir minha vaga",
-        labelAntesAbertura: "Abertura das inscrições em",
-        labelAposAbertura: "Inscrições abertas • O workshop começa em",
-        mensagemEncerrado: "As inscrições estão abertas!"
+        labelContador: "Inscrições abertas • O workshop começa em"
     },
 
     investimento: {

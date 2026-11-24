@@ -164,13 +164,13 @@ section {
     background-color: var(--marrom);
     color: var(--branco);
     text-decoration: none;
-    padding: 19px 42px;
+    padding: 18px 38px;
     border-radius: var(--radius-pill);
     font-family: var(--font-sans);
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 1.35rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.6px;
     text-align: center;
     border: 1px solid var(--marrom);
     cursor: pointer;
@@ -202,7 +202,7 @@ section {
 }
 
 .btn-primary i {
-    font-size: 0.76rem;
+    font-size: 1.05rem;
     flex-shrink: 0;
     transition: transform 0.35s var(--ease-out-expo);
 }
@@ -276,13 +276,13 @@ section {
 }
 
 .btn-topbar {
-    font-size: 0.68rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 1.8px;
+    letter-spacing: 1.4px;
     font-weight: 500;
     color: var(--branco);
     text-decoration: none;
-    padding: 9px 20px;
+    padding: 10px 22px;
     border: 1px solid var(--marrom);
     border-radius: var(--radius-pill);
     background-color: var(--marrom);
@@ -450,7 +450,7 @@ section {
 
 .hero-conteudo .countdown-editorial {
     width: 100%;
-    max-width: 325px;
+    max-width: 380px;
     margin: 0 0 14px;
     text-align: left;
 }
@@ -466,7 +466,7 @@ section {
     align-items: center;
     justify-content: space-between;
     gap: 6px;
-    padding: 11px 20px;
+    padding: 11px 22px;
     background-color: rgba(255, 255, 255, 0.72);
     border: 1px solid var(--borda-sutil);
     border-radius: var(--radius-sm);
@@ -498,12 +498,16 @@ section {
 .hero-conteudo .btn-primary {
     display: flex;
     width: 100%;
-    max-width: 325px;
+    max-width: 380px;
     min-width: 0;
     margin: 0;
-    padding: 15px 24px;
-    font-size: 0.76rem;
-    letter-spacing: 1.7px;
+    padding: 16px 24px;
+    font-size: 1.18rem;
+    letter-spacing: 1.4px;
+}
+
+.hero-conteudo .btn-primary i {
+    font-size: 0.95rem;
 }
 
 .secao-dores-limpa {
@@ -1479,13 +1483,32 @@ section {
 
 .oferta-card .btn-primary {
     width: 100%;
-    padding: 21px;
+    padding: 20px;
 }
 
 .oferta-nota {
     font-size: 0.78rem;
     color: var(--texto-corpo);
     margin-top: 16px;
+}
+
+.oferta-seguro {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--marrom-profundo);
+    opacity: 0.88;
+}
+
+.oferta-seguro svg {
+    width: 18px;
+    height: 18px;
+    color: var(--marrom);
+    flex-shrink: 0;
 }
 
 .bonus-strip-separado {
@@ -1628,7 +1651,7 @@ section {
     color: var(--marrom-profundo);
     border-color: var(--areia);
     width: 100%;
-    max-width: 400px;
+    max-width: 560px;
     margin-bottom: 24px;
     font-weight: 600;
 }
@@ -1872,7 +1895,37 @@ footer {
 
 .legal-modal-actions .btn-primary {
     padding: 14px 26px;
-    font-size: 0.72rem;
+    font-size: 0.95rem;
+    letter-spacing: 1.4px;
+}
+
+.legal-modal-actions .btn-primary i {
+    font-size: 0.85rem;
+}
+
+.btn-outline-modal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--marrom);
+    background-color: transparent;
+    color: var(--marrom);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s var(--ease-out-expo);
+}
+
+.btn-outline-modal:hover {
+    background-color: var(--marrom);
+    color: var(--branco);
+    transform: translateY(-2px);
 }
 
 @media (max-width: 980px) {
@@ -2066,9 +2119,18 @@ footer {
     .btn-primary {
         width: 100%;
         padding: 16px 20px;
-        font-size: 0.74rem;
-        letter-spacing: 1.5px;
+        font-size: 1.05rem;
+        letter-spacing: 1.2px;
         gap: 10px;
+    }
+
+    .btn-primary i {
+        font-size: 0.9rem;
+    }
+
+    .btn-outline-modal {
+        width: 100%;
+        font-size: 0.9rem;
     }
 
     .topbar-inner {
@@ -2085,9 +2147,9 @@ footer {
     }
 
     .btn-topbar {
-        padding: 8px 13px;
-        font-size: 0.6rem;
-        letter-spacing: 1.1px;
+        padding: 8px 14px;
+        font-size: 0.78rem;
+        letter-spacing: 1px;
     }
 
     .hero-arqflow {
@@ -2152,6 +2214,12 @@ footer {
     .hero-conteudo .countdown-editorial,
     .hero-conteudo .btn-primary {
         max-width: 100%;
+    }
+
+    .hero-conteudo .btn-primary {
+        font-size: 1.05rem;
+        letter-spacing: 1.2px;
+        padding: 16px 20px;
     }
 
     .secao-dores-limpa {
