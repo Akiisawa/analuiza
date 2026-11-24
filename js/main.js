@@ -68,107 +68,53 @@ document.addEventListener("DOMContentLoaded", function () {
     if (elTermos && linksCfg.termosUso) elTermos.href = linksCfg.termosUso;
     if (elContato && linksCfg.contato) elContato.href = linksCfg.contato;
 
-// 2. Painéis Expansíveis de Galeria (Acordeão Horizontal / Vertical)
-    const galeria = document.querySelector(".js-acervo-galeria");
-    if (galeria) {
-        const paineis = Array.from(galeria.querySelectorAll(".acervo-painel"));
-        const prevBtn = document.querySelector(".js-galeria-prev");
-        const nextBtn = document.querySelector(".js-galeria-next");
-        const dotsContainer = document.querySelector(".js-galeria-dots");
+// 2. Lightbox para Prévias das Pranchas (Pack 01)
+    const lightbox = document.querySelector(".js-prancha-lightbox");
+    if (lightbox) {
+        const lightboxImg = lightbox.querySelector(".js-lightbox-img");
+        const lightboxCaption = lightbox.querySelector(".js-lightbox-caption");
+        const closeBtn = lightbox.querySelector(".js-lightbox-close");
+        const triggers = document.querySelectorAll(".js-preview-trigger");
 
-        let activeIndex = 0;
-
-        function ativarPainel(index) {
-            activeIndex = (index + paineis.length) % paineis.length;
-
-            paineis.forEach(function (painel, i) {
-                const ativo = i === activeIndex;
-                painel.classList.toggle("is-active", ativo);
-                painel.setAttribute("aria-expanded", ativo ? "true" : "false");
-            });
-
-            if (dotsContainer) {
-                dotsContainer.querySelectorAll(".carousel-dot").forEach(function (dot, i) {
-                    const ativo = i === activeIndex;
-                    dot.classList.toggle("active", ativo);
-                    dot.setAttribute("aria-selected", ativo ? "true" : "false");
-                });
-            }
+        function abrirLightbox(src, caption) {
+            lightboxImg.src = src;
+            lightboxImg.alt = caption || "";
+            lightboxCaption.textContent = caption || "";
+            lightbox.classList.add("is-open");
+            lightbox.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
         }
 
-        if (dotsContainer) {
-            dotsContainer.innerHTML = "";
-            paineis.forEach(function (_, idx) {
-                const dot = document.createElement("button");
-                dot.type = "button";
-                dot.className = "carousel-dot" + (idx === 0 ? " active" : "");
-                dot.setAttribute("role", "tab");
-                dot.setAttribute("aria-label", "Abrir material " + (idx + 1));
-                dot.setAttribute("aria-selected", idx === 0 ? "true" : "false");
-                dot.addEventListener("click", function () {
-                    ativarPainel(idx);
-                });
-                dotsContainer.appendChild(dot);
-            });
+        function fecharLightbox() {
+            lightbox.classList.remove("is-open");
+            lightbox.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
         }
 
-        paineis.forEach(function (painel, idx) {
-            painel.addEventListener("click", function () {
-                if (idx !== activeIndex) {
-                    ativarPainel(idx);
-                }
-            });
-
-            painel.addEventListener("keydown", function (e) {
-                if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    ativarPainel(idx);
-                } else if (e.key === "ArrowRight") {
-                    e.preventDefault();
-                    ativarPainel(activeIndex + 1);
-                    paineis[activeIndex].focus();
-                } else if (e.key === "ArrowLeft") {
-                    e.preventDefault();
-                    ativarPainel(activeIndex - 1);
-                    paineis[activeIndex].focus();
-                }
+        triggers.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                abrirLightbox(
+                    btn.getAttribute("data-img"),
+                    btn.getAttribute("data-caption")
+                );
             });
         });
 
-        if (prevBtn) {
-            prevBtn.addEventListener("click", function () {
-                ativarPainel(activeIndex - 1);
-            });
+        if (closeBtn) {
+            closeBtn.addEventListener("click", fecharLightbox);
         }
 
-        if (nextBtn) {
-            nextBtn.addEventListener("click", function () {
-                ativarPainel(activeIndex + 1);
-            });
-        }
+        lightbox.addEventListener("click", function (e) {
+            if (e.target === lightbox) {
+                fecharLightbox();
+            }
+        });
 
-        // Suporte a gesto de deslizar (swipe) no touch
-        let touchStartX = 0;
-        galeria.addEventListener(
-            "touchstart",
-            function (e) {
-                touchStartX = e.changedTouches[0].screenX;
-            },
-            { passive: true }
-        );
-
-        galeria.addEventListener(
-            "touchend",
-            function (e) {
-                const deltaX = e.changedTouches[0].screenX - touchStartX;
-                if (Math.abs(deltaX) > 45) {
-                    ativarPainel(deltaX < 0 ? activeIndex + 1 : activeIndex - 1);
-                }
-            },
-            { passive: true }
-        );
-
-        ativarPainel(0);
+        window.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && lightbox.classList.contains("is-open")) {
+                fecharLightbox();
+            }
+        });
     }
 
     // 3. Accordion Fluido para o FAQ
