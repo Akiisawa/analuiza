@@ -7,7 +7,7 @@ window.WORKSHOP_CONFIG = {
         contato: "https://chat.whatsapp.com/BAM6Ckx4bx43wZoTlQNF1e?s=sw&p=i&iam=2"
     },
 
-    dataCorteISO: "2026-11-25T00:00:00-03:00",
+    dataCorteISO: "2026-12-16T00:30:00-03:00",
 
     textosBotoes: {
         espera: "Entrar no grupo de espera",
@@ -16,7 +16,7 @@ window.WORKSHOP_CONFIG = {
     },
 
     investimento: {
-        valorTotalRiscado: "R$ 247,00",
+        valorTotalRiscado: "R$ 823,00",
         parcelamentoDestaque: "12x de R$ 25,55",
         precoAVista: "ou R$ 247,00 à vista"
     },
