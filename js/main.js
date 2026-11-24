@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const cdCfg = cfg.contador || {};
     const animCfg = cfg.animacao || {};
 
-    // 1. Alternância Automática dos Botões + Preservação de UTMs
     const linkWhatsAppBase =
         linksCfg.whatsappGrupoEspera ||
         "https://chat.whatsapp.com/BAM6Ckx4bx43wZoTlQNF1e?s=sw&p=i&iam=2";
@@ -51,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     aplicarCtas();
 
-    // Sincroniza valores de investimento e links do rodapé via config.js
     const elTotal = document.querySelector(".js-valor-total");
     const elParcelado = document.querySelector(".js-preco-parcelado");
     const elAVista = document.querySelector(".js-preco-avista");
@@ -68,7 +66,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (elTermos && linksCfg.termosUso) elTermos.href = linksCfg.termosUso;
     if (elContato && linksCfg.contato) elContato.href = linksCfg.contato;
 
-// 2. Lightbox para Prévias das Pranchas (Pack 01)
     const lightbox = document.querySelector(".js-prancha-lightbox");
     if (lightbox) {
         const lightboxImg = lightbox.querySelector(".js-lightbox-img");
@@ -117,7 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 3. Accordion Fluido para o FAQ
     const faqItems = document.querySelectorAll(".faq-item");
     faqItems.forEach(function (item) {
         const btn = item.querySelector(".faq-question");
@@ -142,7 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // 4. Contador Regressivo Dinâmico (Hero e Investimento)
     const countdownEls = document.querySelectorAll(".js-countdown");
     if (countdownEls.length > 0) {
         if (cdCfg.ativo === false) {
